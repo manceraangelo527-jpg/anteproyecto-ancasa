@@ -1,0 +1,15 @@
+#Archivos compilados y temporales de Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+#Entornos virtuales
+.venv/
+env/
+venv/
+Ancasa_Caballero/
+
+#Configuración de editor de código (VS Code)
+.vscode/
+.idea/
