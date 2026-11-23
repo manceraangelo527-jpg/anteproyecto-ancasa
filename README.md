@@ -6,7 +6,7 @@ Videojuego de aventura y rol (RPG) desarrollado en Python. Toma el papel del mej
 
 ## Punto de partida (Base actual)
 
-Este repositorio parte de un **prototipo funcional en consola** contenido en el archivo base `game/main.py`. Actualmente, el proyecto opera como una aventura conversacional de elección múltiple en terminal que establece las bases narrativas y mecánicas principales del juego:
+Este repositorio parte de un **prototipo funcional en consola** contenido en el archivo base `legacy/main.py`. Actualmente, el proyecto opera como una aventura conversacional de elección múltiple en terminal que establece las bases narrativas y mecánicas principales del juego:
 
 - **Narrativa interactiva:** Toma de decisiones con ramificaciones que afectan el desarrollo de la historia.
 - **Sistema de combate por turnos:** Enfrentamientos básicos contra enemigos con gestión de estados y acciones.
