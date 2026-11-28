@@ -4,6 +4,7 @@ from config import ANCHO, ALTO, ALTO_ARENA, ALTO_CAJA, FPS
 from audio import GestorAudio
 from ui import InterfazPokemon, BotonPokemon
 from historia import crear_estado_inicial, obtener_escena
+from guardado import existe_guardado, cargar_partida, guardar_partida
 
 
 class JuegoPokemon:
@@ -15,9 +16,18 @@ class JuegoPokemon:
 
         self.ui = InterfazPokemon()
         self.audio = GestorAudio()
-        self.estado = crear_estado_inicial()
+        escena_inicial = "intro_1"
+        if existe_guardado():
+            guardado = cargar_partida()
+            if guardado and "estado" in guardado:
+                self.estado = guardado["estado"]
+                escena_inicial = guardado.get("escena_actual_id", self.estado.get("checkpoint") or "intro_1")
+            else:
+                self.estado = crear_estado_inicial()
+        else:
+            self.estado = crear_estado_inicial()
 
-        self.escena_actual_id = "intro_1"
+        self.escena_actual_id = escena_inicial
         self.escena_visual = {}
         self.opciones_actuales = []
         self.botones = []
@@ -25,7 +35,17 @@ class JuegoPokemon:
         self.mostrar_opciones = False
         self.input_nombre = None
 
-        self.cargar_escena("intro_1")
+        self.boton_guardar = pygame.Rect(ANCHO - 135, 10, 120, 32)
+        self.mensaje_guardado = ""
+        self.tiempo_mensaje_guardado = 0.0
+
+        self.cargar_escena(escena_inicial)
+
+
+    def ejecutar_guardado(self, es_autosave=False):
+        guardar_partida(self.estado, self.escena_actual_id, es_autosave=es_autosave)
+        self.mensaje_guardado = "Autoguardado" if es_autosave else "Partida guardada"
+        self.tiempo_mensaje_guardado = 2.0
 
     def cargar_escena(self, id_escena):
         self.escena_actual_id = id_escena
@@ -35,6 +55,7 @@ class JuegoPokemon:
 
         if "checkpoint" in datos:
             self.estado["checkpoint"] = datos["checkpoint"]
+            self.ejecutar_guardado(es_autosave=True)
 
         if "enemigo" in datos:
             nom_e, v_e, max_e = datos["enemigo"]
@@ -167,10 +188,28 @@ class JuegoPokemon:
                 self.mostrar_opciones = True
                 self.indice_seleccionado = 0
 
+    def _dibujar_boton_guardar(self):
+        fuente = pygame.font.SysFont("arial", 15, bold=True)
+        mouse_encima = self.boton_guardar.collidepoint(pygame.mouse.get_pos())
+        color_fondo = (60, 145, 90) if mouse_encima else (40, 110, 68)
+
+        pygame.draw.rect(self.pantalla, color_fondo, self.boton_guardar, border_radius=6)
+        pygame.draw.rect(self.pantalla, (230, 245, 235), self.boton_guardar, width=2, border_radius=6)
+
+        texto = fuente.render("Guardar", True, (255, 255, 255))
+        rect_texto = texto.get_rect(center=self.boton_guardar.center)
+        self.pantalla.blit(texto, rect_texto)
+
+        if self.tiempo_mensaje_guardado > 0 and self.mensaje_guardado:
+            aviso = fuente.render(self.mensaje_guardado, True, (255, 235, 120))
+            self.pantalla.blit(aviso, (self.boton_guardar.x - 10, self.boton_guardar.bottom + 4))
+
     def ejecutar(self):
         while True:
             dt = self.reloj.tick(FPS) / 1000.0
             pos_mouse = pygame.mouse.get_pos()
+            if self.tiempo_mensaje_guardado > 0:
+                self.tiempo_mensaje_guardado = max(0.0, self.tiempo_mensaje_guardado - dt)
 
             if self.mostrar_opciones:
                 for i, boton in enumerate(self.botones):
@@ -194,6 +233,9 @@ class JuegoPokemon:
                     continue
 
                 if evento.type == pygame.MOUSEBUTTONDOWN and evento.button == 1:
+                    if self.boton_guardar.collidepoint(evento.pos):
+                        self.ejecutar_guardado(es_autosave=False)
+                        continue
                     if not self.mostrar_opciones:
                         self._avanzar_interaccion()
                     else:
@@ -203,6 +245,9 @@ class JuegoPokemon:
                                 break
 
                 if evento.type == pygame.KEYDOWN:
+                    if evento.key == pygame.K_F5:
+                        self.ejecutar_guardado(es_autosave=False)
+                        continue
                     if not self.mostrar_opciones:
                         if evento.key in (pygame.K_SPACE, pygame.K_RETURN):
                             self._avanzar_interaccion()
@@ -229,6 +274,7 @@ class JuegoPokemon:
                 self.indice_seleccionado,
                 self.input_nombre
             )
+            self._dibujar_boton_guardar()
             pygame.display.flip()
 
 
