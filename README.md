@@ -16,7 +16,6 @@ Este archivo base sirve como prueba de concepto y referencia funcional para vali
 
 ---
 
-
 ## Visión del proyecto: Hacia dónde vamos
 
 El objetivo principal de este desarrollo es transformar el prototipo actual de terminal en un **videojuego con entorno gráfico completo**, diseñado bajo estándares y prácticas de **desarrollo de software profesional**.
@@ -25,3 +24,22 @@ El objetivo principal de este desarrollo es transformar el prototipo actual de t
 1. **Migración a entorno gráfico:** Pasar de la interfaz de texto en consola a una interfaz gráfica 2D con soporte para sprites, escenarios, animaciones, menús interactivos, HUD (interfaz de usuario en pantalla) y efectos de sonido.
 2. **Herramientas de guardado persistente:** Reemplazar los checkpoints temporales en memoria por un sistema de guardado y carga de partidas (mediante archivos txt), permitiendo gestionar múltiples ranuras de guardado y estadísticas.
 3. **Arquitectura profesional y escalable:** Refactorizar el código monolítico inicial en una estructura modular limpia (separando lógica de negocio, interfaz gráfica, datos narrativos, persistencia y recursos multimedia), aplicando control de versiones, documentación técnica y pruebas.
+
+---
+
+## 👥 Equipo de Desarrollo y Créditos 
+- **Arte:** **[@carlos2530]**
+- Diseño y creación 100% original de los **sprites de personajes y enemigos en Pixel Art** con transparencia.
+- Edición y adaptación de los **fondos de escenario**
+
+- **Sistema de Guardado:** **[@manceraangelo527-jpg]**
+- Diseño e implementación del **sistema de guardado** de partidas.
+
+- **Diseño Narrativo y Control de Calidad (QA):** **Santiago Moreno Moreno** 
+- Revisión, balanceo y **pruebas de escenarios, diálogos y rutas de decisión**. 
+
+---
+
+## 🎨 Atribución de Recursos y Herramientas 
+- **Sprites:** Autoría original en Pixel Art por [@carlos2530]
+- **Fondos de Escenario:** Generados conceptualmente con asistencia de **Google Gemini**, adaptados y optimizados manualmente para la arena visual del juego.

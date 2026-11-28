@@ -9,7 +9,7 @@ FPS = 60
 
 # Rutas de recursos multimedia
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-IMG_DIR = os.path.join(BASE_DIR, "assets", "images")
+IMG_DIR = os.path.join(BASE_DIR, "assets", "IMGs")
 SND_DIR = os.path.join(BASE_DIR, "assets", "sounds")
 
 # Paleta estilo RPG / Batalla Pokémon
