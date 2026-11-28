@@ -1,14 +1,4 @@
-# Entornos virtuales
-venv/
-.venv/
-env/
-.DS_Store
-
-# Archivos compilados de Python
-__pycache__/
+﻿__pycache__/
 *.py[cod]
-*.pyc
-
-# Configuración de editores
+savegame.json
 .vscode/
-.idea/
